@@ -6,5 +6,28 @@ squid_project_general_homepage2:
     pattern:  /accueil
     defaults: { _controller: SquidProjectGeneralBundle:General:accueil }
 
+squid_project_general_source:
+    pattern:  /source
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAccueil }
+
+squid_project_general_source_new:
+    pattern:  /source/new
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceNew}
+squid_project_general_source_newIP:
+    pattern:  /source/newIP
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceNewIP}
+
+squid_project_general_source_add:
+    pattern:  /source/add
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAdd }
+
+squid_project_general_source_all:
+    pattern:  /source/all
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAll}
+
+
+
+
+
 
 

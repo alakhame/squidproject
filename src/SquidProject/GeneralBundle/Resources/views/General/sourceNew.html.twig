@@ -1,0 +1,78 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuSource.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<form role="form" method="post" action="{{path()}}">
+		<fieldset>
+            <div class="form-group ">
+                <label class="control-label" for="nom">Nom de la source</label>
+                <input type="text" class="form-control" id="nom" name="nom">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="type">Type de la source</label>
+                <select class="form-control" name="type" id="type">
+                	<option value=""></option>
+                    <option value="1">fichier d'adresses IPs</option>
+                    <option value="2">Plage d'addresses</option>
+                    <option value="3">Adresse avec CIDR</option>
+                </select>
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="fichierip">Nom du fichier d'IPs</label>
+                <input type="text" class="form-control" id="fichierip" name="fichierip">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="plageip">Plage d'addresses</label>
+                <input type="text" class="form-control" id="plageip" name="plageip">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="cidr">Adresse avec CIDR</label>
+                <input type="text" class="form-control " id="cidr" name="cidr">
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </fieldset>
+        </form>	
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+		  	var input1=$("#fichierip");
+		  	var input2=$("#plageip");
+		  	var input3=$("#cidr");
+		  	input1.prop('disabled', true);
+		  	input2.prop('disabled', true);
+		  	input3.prop('disabled', true);
+		
+
+			var type= $("#type");
+			type.click(function(){
+				var n=type.val();
+				if(n==1){
+					input1.prop('disabled', false); input2.prop('disabled', true); input3.prop('disabled', true);
+				}
+				else if(n==2){
+					input2.prop('disabled', false); input1.prop('disabled', true); input3.prop('disabled', true);
+				}
+				else if(n==3){
+					input3.prop('disabled', false); input2.prop('disabled', true); input1.prop('disabled', true);
+				}
+				else{
+					input3.prop('disabled', true); input2.prop('disabled', true); input1.prop('disabled', true);
+				}
+
+			});
+		});
+	</script>
+{% endblock %}
