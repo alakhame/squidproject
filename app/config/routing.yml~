@@ -1,0 +1,6 @@
+squid_project_general:
+    resource: "@SquidProjectGeneralBundle/Resources/config/routing.yml"
+    prefix:   /general
+
+
+

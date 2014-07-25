@@ -1,0 +1,7 @@
+parameters:
+#    squid_project_user.example.class: SquidProject\UserBundle\Example
+
+services:
+#    squid_project_user.example:
+#        class: %squid_project_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,10 @@
+squid_project_general_homepage:
+    pattern:  /
+    defaults: { _controller: SquidProjectGeneralBundle:General:accueil }
+
+squid_project_general_homepage2:
+    pattern:  /accueil
+    defaults: { _controller: SquidProjectGeneralBundle:General:accueil }
+
+
+

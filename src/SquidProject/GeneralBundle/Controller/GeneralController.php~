@@ -1,0 +1,17 @@
+<?php
+
+namespace SquidProject\GeneralBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class GeneralController extends Controller
+{
+    public function accueilAction()
+    {
+        return $this->render('SquidProjectGeneralBundle:General:accueil.html.twig');
+    }
+	public function loginAction()
+    {
+        return $this->render('SquidProjectGeneralBundle:General:login.html.twig');
+    }
+}
