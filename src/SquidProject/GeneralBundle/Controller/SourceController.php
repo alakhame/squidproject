@@ -8,23 +8,20 @@ use SquidProject\GeneralBundle\Entity\Ip;
 
 class SourceController extends Controller
 {
-    private $user;
-
     public function init(){
-        $this->user=$this->container->get('security.context')->getToken()->getUser();
+       return $this->container->get('security.context')->getToken()->getUser();
     }
     
 
      public function sourceAccueilAction()
     {   
-        $this->init();
-        $pseudo=$this->user->getUsername();
-        return $this->render('SquidProjectGeneralBundle:General:source.html.twig',array('pseudo'=>$pseudo));
+        
+        $pseudo=$this->init()->getUsername();
+        return $this->render('SquidProjectGeneralBundle:Source:source.html.twig',array('pseudo'=>$pseudo));
     }
     public function sourceNewIPAction()
     {   
-        $this->init();
-        $pseudo=$this->user->getUsername();
+        $pseudo=$this->init()->getUsername();
         $request = $this->get('request');
         if ('POST' === $request->getMethod()) {
 
@@ -32,16 +29,44 @@ class SourceController extends Controller
 
                $ip= new Ip();
                $ip->setType($_POST['type']);
-               if($_POST['type']==1) $ip->setIpListFile($_POST['fichierip']);
-               else if($_POST['type']==2) $ip->setIpRange($_POST['plageip']);
-               else if($_POST['type']==3)$ip->setIpCidr($_POST['cidr']);
+               if($_POST['type']==1) $ip->setIp($_POST['fichierip']);
+               else if($_POST['type']==2) $ip->setIp($_POST['plageip']);
+               else if($_POST['type']==3)$ip->setIp($_POST['cidr']);
 
             $em->persist($ip);
             $em->flush();
 
-           return "hhhhhhhh";
+           return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
         } 
-        else return $this->render('SquidProjectGeneralBundle:General:sourceNewIP.html.twig',array('pseudo'=>$pseudo));
+        else return $this->render('SquidProjectGeneralBundle:Source:sourceNewIP.html.twig',array('pseudo'=>$pseudo));
+    }
+
+     public function sourceNewAction()
+    {   
+       $pseudo=$this->init()->getUsername();
+        $request = $this->get('request');
+        if ('POST' === $request->getMethod()) {
+
+           $em = $this->getDoctrine()->getManager();
+
+               $ip= new Ip();
+               $ip->setType($_POST['type']);
+               if($_POST['type']==1) $ip->setIp($_POST['fichierip']);
+               else if($_POST['type']==2) $ip->setIp($_POST['plageip']);
+               else if($_POST['type']==3)$ip->setIp($_POST['cidr']);
+
+            $em->persist($ip);
+            $em->flush();
+
+           return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
+        } 
+        else {
+                
+            $doctrine = $this->getDoctrine();
+            $ips=$doctrine->getRepository('SquidProjectGeneralBundle:Ip')->findAll();
+            return $this->render('SquidProjectGeneralBundle:Source:sourceNew.html.twig',array('pseudo'=>$pseudo, 'ips'=>$ips));
+
+        }
     }
 
 }

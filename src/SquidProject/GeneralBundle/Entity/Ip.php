@@ -31,23 +31,11 @@ class Ip
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_list_file", type="string", length=255)
+     * @ORM\Column(name="ip", type="string", length=255)
      */
-    private $ipListFile;
+    private $ip;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_cidr", type="string", length=255)
-     */
-    private $ipCidr;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_range", type="string", length=255)
-     */
-    private $ipRange;
+   
 
 
     /**
@@ -84,14 +72,14 @@ class Ip
     }
 
     /**
-     * Set ipListFile
+     * Set ip
      *
-     * @param string $ipListFile
+     * @param string $ip
      * @return Ip
      */
-    public function setIpListFile($ipListFile)
+    public function setIp($ip)
     {
-        $this->ipListFile = $ipListFile;
+        $this->ip = $ip;
     
         return $this;
     }
@@ -101,54 +89,10 @@ class Ip
      *
      * @return string 
      */
-    public function getIpListFile()
+    public function getIp()
     {
-        return $this->ipListFile;
+        return $this->ip;
     }
 
-    /**
-     * Set ipCidr
-     *
-     * @param string $ipCidr
-     * @return Ip
-     */
-    public function setIpCidr($ipCidr)
-    {
-        $this->ipCidr = $ipCidr;
     
-        return $this;
-    }
-
-    /**
-     * Get ipCidr
-     *
-     * @return string 
-     */
-    public function getIpCidr()
-    {
-        return $this->ipCidr;
-    }
-
-    /**
-     * Set ipRange
-     *
-     * @param string $ipRange
-     * @return Ip
-     */
-    public function setIpRange($ipRange)
-    {
-        $this->ipRange = $ipRange;
-    
-        return $this;
-    }
-
-    /**
-     * Get ipRange
-     *
-     * @return string 
-     */
-    public function getIpRange()
-    {
-        return $this->ipRange;
-    }
 }

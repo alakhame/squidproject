@@ -1,0 +1,92 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuSource.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<button   style="float:right" class="btn btn-primary" id="addnew">Nouvelle @ Ip</button>
+		<form role="form"  style="margin-top:20px" method="post" action="{{path("squid_project_general_source_new")}}">
+		 <fieldset id="field">
+            <div class="form-group ">
+                <label class="control-label" for="nom">Nom de la source</label>
+                <input type="text" class="form-control" id="nom" name="nom">
+            </div>
+
+            <div class="form-group " id="g1">
+                <label class="control-label" for="sel1">Adresses IPs</label>
+                <select class="form-control" name="sel1" id="sel1">
+                    {% for ip in ips %}
+                    	<option value="{{ip.id}}">{{ip.ip}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        <div class="form-group " id="g2">
+                <label class="control-label" for="sel2">Adresses IPs</label>
+                <select class="form-control" name="sel2" id="sel2">
+                    {% for ip in ips %}
+                    	<option value="{{ip.id}}">{{ip.ip}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        <div class="form-group " id="g3">
+                <label class="control-label" for="sel3">Adresses IPs</label>
+                <select class="form-control" name="sel3" id="sel3">
+                    {% for ip in ips %}
+                    	<option value="{{ip.id}}">{{ip.ip}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        <div class="form-group " id="g4">
+                <label class="control-label" for="sel4">Adresses IPs</label>
+                <select class="form-control" name="sel4" id="sel4">
+                    {% for ip in ips %}
+                    	<option value="{{ip.id}}">{{ip.ip}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        <div class="form-group " id="g5">
+                <label class="control-label" for="sel5">Adresses IPs</label>
+                <select class="form-control" name="sel5" id="sel5">
+                    {% for ip in ips %}
+                    	<option value="{{ip.id}}">{{ip.ip}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        <input type="hidden"  id="count" name="count" value="1">
+		</fieldset>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        
+        </form>	
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			function init(){
+				for(var i=2; i<6;i++){
+					$("#g"+i).hide();
+				}
+			} 
+
+			init();
+		   var add= $("#addnew");
+		   add.click(function(){
+		   		var c= parseInt($("#count").attr("value"))+1;
+		   		if(c<6){
+		   			$("#count").attr("value",c);
+		   			$("#g"+c).show(500);
+					
+				}
+				else alert("vous ne pouvez pas dépasser ce nombre maximum");
+				
+		   });
+		});
+	</script>
+{% endblock %}
