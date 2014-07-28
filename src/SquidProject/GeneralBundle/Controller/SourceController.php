@@ -4,6 +4,10 @@ namespace SquidProject\GeneralBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SquidProject\GeneralBundle\Entity\Ip;
+use SquidProject\GeneralBundle\Entity\IpSource;
+use SquidProject\GeneralBundle\Entity\Source;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 class SourceController extends Controller
@@ -12,6 +16,11 @@ class SourceController extends Controller
        return $this->container->get('security.context')->getToken()->getUser();
     }
     
+    public function getIpByIpSource($id){
+        $doctrine = $this->getDoctrine();
+        $ip=$doctrine->getRepository('SquidProjectGeneralBundle:Ip')->findOneBy(array('id'=>$id));
+        return $ip;
+    }
 
      public function sourceAccueilAction()
     {   
@@ -47,16 +56,23 @@ class SourceController extends Controller
         $request = $this->get('request');
         if ('POST' === $request->getMethod()) {
 
-           $em = $this->getDoctrine()->getManager();
+          $em = $this->getDoctrine()->getManager();
+          $source=new Source();
+          $source->setNom($_POST['nom']);
+          $em->persist($source);
+          $em->flush();
+          $em->clear();
 
-               $ip= new Ip();
-               $ip->setType($_POST['type']);
-               if($_POST['type']==1) $ip->setIp($_POST['fichierip']);
-               else if($_POST['type']==2) $ip->setIp($_POST['plageip']);
-               else if($_POST['type']==3)$ip->setIp($_POST['cidr']);
-
-            $em->persist($ip);
+          $i=0; $n=$_POST['count'];
+          for($i=1;$i<=$n;$i++){
+            $ipsource=new IpSource();
+            $ipsource->setIdIp($_POST['sel'.$i]);
+            $ipsource->setIdSource($source->getId());
+            $em->persist($ipsource);
             $em->flush();
+            $em->clear();
+          }
+          
 
            return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
         } 
@@ -67,6 +83,59 @@ class SourceController extends Controller
             return $this->render('SquidProjectGeneralBundle:Source:sourceNew.html.twig',array('pseudo'=>$pseudo, 'ips'=>$ips));
 
         }
+    }
+
+    public function sourceAllAction()
+    {   
+        $pseudo=$this->init()->getUsername();
+        $doctrine = $this->getDoctrine();
+        $sources=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->findAll();
+        return $this->render('SquidProjectGeneralBundle:Source:sourceAll.html.twig',array('pseudo'=>$pseudo,
+                                                                    'sources'=>$sources));
+    }
+
+    public function ipsForSourceAction($id){
+        $doctrine = $this->getDoctrine();
+        $ipSourceTab=$doctrine->getRepository('SquidProjectGeneralBundle:IpSource')->findBy(array('idSource'=>$id));
+        $s="";
+        foreach ($ipSourceTab as $ipSource) {
+          $ip=$this->getIpByIpSource($ipSource->getIdIp());
+          $s.=$ip->getIp()."<br/>" ;
+        }
+        return  new Response($s);
+    }
+
+
+    public function SourceUpdateAction($id){
+        $pseudo=$this->init()->getUsername();
+        $request = $this->get('request');
+        if ('POST' === $request->getMethod()) {
+
+          $em = $this->getDoctrine()->getManager();
+          $i=0; $n=$_POST['count'];
+          for($i=1;$i<=$n;$i++){
+            $ipsource=new IpSource();
+            $ipsource->setIdIp($_POST['sel'.$i]);
+            $ipsource->setIdSource($_POST['id']);
+            $em->persist($ipsource);
+            $em->flush();
+            $em->clear();
+          }
+          return $this->render('SquidProjectGeneralBundle:Source:sourceUpdate.html.twig',array('pseudo'=>$pseudo));
+      
+        }
+        else {
+            $doctrine = $this->getDoctrine();
+            $source=$this->getSourceById($id);
+            $ips=$doctrine->getRepository('SquidProjectGeneralBundle:Ip')->findAll();
+            return $this->render('SquidProjectGeneralBundle:Source:sourceUpdate.html.twig',array('s'=>$source,'pseudo'=>$pseudo, 'ips'=>$ips));
+        }
+    }
+
+    public function getSourceById($id){
+        $doctrine = $this->getDoctrine();
+        $s=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->findOneBy(array('id'=>$id ));
+        return $s;
     }
 
 }

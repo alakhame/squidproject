@@ -24,9 +24,19 @@ class DestinationDB
     /**
      * @var string
      *
+     * @ORM\Column(name="type", type="integer", length=255)
+     */
+    private $type;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
+
+
 
 
     /**
@@ -37,6 +47,29 @@ class DestinationDB
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Ip
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

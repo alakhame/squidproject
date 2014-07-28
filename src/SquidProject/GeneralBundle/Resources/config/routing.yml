@@ -22,6 +22,38 @@ squid_project_general_source_all:
     pattern:  /source/all
     defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAll}
 
+squid_project_general_source_update:
+    pattern:  /source/update/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceUpdate, id:0}
+
+squid_project_general_destination:
+    pattern:  /destination
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destAccueil }
+
+squid_project_general_destination_all:
+    pattern:  /destination
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destAll }
+
+squid_project_general_destination_new:
+    pattern:  /destination/new
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destNew }
+
+squid_project_general_destination_whitelist:
+    pattern:  /destination/whitelist
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destWl }
+
+squid_project_general_destination_blacklist:
+    pattern:  /destination/blacklist
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destBl }
+
+squid_project_general_destination_update:
+    pattern:  /destination/update/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destUpdate, id:0}
+
+
+
+
+
 
 
 

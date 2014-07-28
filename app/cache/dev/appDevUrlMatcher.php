@@ -335,6 +335,44 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\SourceController::sourceAllAction',  '_route' => 'squid_project_general_source_all',);
             }
 
+            // squid_project_general_source_update
+            if (0 === strpos($pathinfo, '/source/update') && preg_match('#^/source/update(?:/(?P<id>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'squid_project_general_source_update')), array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\SourceController::sourceUpdateAction',  'id' => 0,));
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/destination')) {
+            // squid_project_general_destination
+            if ($pathinfo === '/destination') {
+                return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destAccueilAction',  '_route' => 'squid_project_general_destination',);
+            }
+
+            // squid_project_general_destination_all
+            if ($pathinfo === '/destination') {
+                return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destAllAction',  '_route' => 'squid_project_general_destination_all',);
+            }
+
+            // squid_project_general_destination_new
+            if ($pathinfo === '/destination/new') {
+                return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destNewAction',  '_route' => 'squid_project_general_destination_new',);
+            }
+
+            // squid_project_general_destination_whitelist
+            if ($pathinfo === '/destination/whitelist') {
+                return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destWlAction',  '_route' => 'squid_project_general_destination_whitelist',);
+            }
+
+            // squid_project_general_destination_blacklist
+            if ($pathinfo === '/destination/blacklist') {
+                return array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destBlAction',  '_route' => 'squid_project_general_destination_blacklist',);
+            }
+
+            // squid_project_general_destination_update
+            if (0 === strpos($pathinfo, '/destination/update') && preg_match('#^/destination/update(?:/(?P<id>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'squid_project_general_destination_update')), array (  '_controller' => 'SquidProject\\GeneralBundle\\Controller\\DestinationController::destUpdateAction',  'id' => 0,));
+            }
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
