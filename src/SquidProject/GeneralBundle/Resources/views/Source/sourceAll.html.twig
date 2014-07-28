@@ -1,0 +1,44 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuSource.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Source</th>
+                        <th>Adresses IP</th>
+                        <th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for s in sources %}
+                    	<tr>
+                    		<td>{{s.id}}</td>
+                    		<td>{{s.nom}}</td>
+                    		<td>{{ render(controller('SquidProjectGeneralBundle:Source:ipsForSource', 
+                    						{ 'id':s.id})) }}</td>
+                    		<td><a href="{{path('squid_project_general_source_update',{'id':s.id})}}">
+                    			<button   style="float:right" class="btn btn-primary" id="addnew">
+                    			Modifier
+                    		</button></a></td>
+                    	</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+	</div>
+
+	
+{% endblock %}
