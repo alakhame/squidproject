@@ -4,16 +4,19 @@
             <a href="{{path("squid_project_general_destination_new")}}"><i class="fa fa-fw fa-dashboard"></i> Nouvelle Destination </a>
         </li>
         <li>
+            <a href="{{path("squid_project_general_destination_new_DB")}}"><i class="fa fa-fw fa-dashboard"></i> Nouvelle Base de donnée</a>
+        </li>
+        <li>
             <a href="{{path("squid_project_general_destination_all")}}"><i class="fa fa-fw fa-table"></i> Lister/Modifier les destination</a>
         </li>
         <li>
             <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Voir les bases de donnees <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo" class="collapse">
                 <li>
-                    <a href="{{path("squid_project_general_destination_whitelist")}}" >BlackList</a>
+                    <a href="{{path("squid_project_general_destination_whitelist")}}" >WhiteList</a>
                 </li>
                 <li>
-                    <a href="{{path("squid_project_general_destination_blacklist")}}">WhiteList</a>
+                    <a href="{{path("squid_project_general_destination_blacklist")}}">BlackList</a>
                 </li>
             </ul>
         </li>

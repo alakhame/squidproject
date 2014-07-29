@@ -1,0 +1,36 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu %}
+	{% include 'SquidProjectGeneralBundle:Menus:menuDestination.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<form role="form" method="post" action="{{path("squid_project_general_destination_new_DB")}}">
+		<fieldset>
+             <div class="form-group ">
+                <label class="control-label" for="type">Type de la Base de donnée</label>
+                <select class="form-control" name="type" id="type">
+                	<option value=""></option>
+                    <option value="0">BlackList</option>
+                    <option value="1">WhiteList</option>
+                </select>
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="nom">Nom de la Base de donnée</label>
+                <input type="text" class="form-control" id="nom" name="nom">
+            </div>
+           
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </fieldset>
+        </form>	
+	</div>
+
+{% endblock %}

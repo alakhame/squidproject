@@ -105,14 +105,30 @@ class SourceController extends Controller
         return  new Response($s);
     }
 
+    public function deleteIpSourceEntities($id){
+        $em = $this->getDoctrine()->getManager();
+        $ipSources=$em->getRepository('SquidProjectGeneralBundle:IpSource')->findAll();
+        foreach ($ipSources as $ipsource) {
+          if($ipsource->getIdSource()==$id){
+            $em->remove($ipsource);
+            $em->flush();
+            $em->clear();
+          }
+        }
+    }
 
     public function SourceUpdateAction($id){
         $pseudo=$this->init()->getUsername();
         $request = $this->get('request');
         if ('POST' === $request->getMethod()) {
-
+          $this->deleteIpSourceEntities($_POST['id']);
           $em = $this->getDoctrine()->getManager();
+          $s=$em->getRepository('SquidProjectGeneralBundle:Source')->find($_POST['id']);
+          $s->setNom($_POST['nom']);
           $i=0; $n=$_POST['count'];
+           $em->flush();
+            $em->clear();
+
           for($i=1;$i<=$n;$i++){
             $ipsource=new IpSource();
             $ipsource->setIdIp($_POST['sel'.$i]);
@@ -121,7 +137,7 @@ class SourceController extends Controller
             $em->flush();
             $em->clear();
           }
-          return $this->render('SquidProjectGeneralBundle:Source:sourceUpdate.html.twig',array('pseudo'=>$pseudo));
+          return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
       
         }
         else {
@@ -136,6 +152,16 @@ class SourceController extends Controller
         $doctrine = $this->getDoctrine();
         $s=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->findOneBy(array('id'=>$id ));
         return $s;
+    }
+
+    public function sourceDeleteAction($id){
+        $pseudo=$this->init()->getUsername();
+          $em = $this->getDoctrine()->getManager();
+          $s=$em->getRepository('SquidProjectGeneralBundle:Source')->find($id);
+          $em->remove($s);
+          $em->flush();
+          $em->clear();
+          return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
     }
 
 }

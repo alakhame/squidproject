@@ -1,0 +1,44 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuDestination.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Base de donnée</th>
+                        <th>Etat</th>
+                        <th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for b in bl%}
+                    	<tr>
+                    		<td>{{b.id}}</td>
+                    		<td>{{b.nom}}</td>
+                    		<td> bloqué </td>
+                            <td><a href="{{path('squid_project_general_destination_DB_update',{'id':b.id})}}">
+                                <button   style="float:right" class="btn btn-primary" id="up">
+                                Autoriser
+                            </button></a></td>
+                    		
+                    	</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+	</div>
+
+	
+{% endblock %}

@@ -6,6 +6,10 @@ squid_project_general_homepage2:
     pattern:  /accueil
     defaults: { _controller: SquidProjectGeneralBundle:General:accueil }
 
+
+
+
+
 squid_project_general_source:
     pattern:  /source
     defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAccueil }
@@ -22,21 +26,33 @@ squid_project_general_source_all:
     pattern:  /source/all
     defaults: { _controller: SquidProjectGeneralBundle:Source:sourceAll}
 
+squid_project_general_source_delete:
+    pattern:  /source/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Source:sourceDelete, id:0}
+
 squid_project_general_source_update:
     pattern:  /source/update/{id}
     defaults: { _controller: SquidProjectGeneralBundle:Source:sourceUpdate, id:0}
+
+
+
+
 
 squid_project_general_destination:
     pattern:  /destination
     defaults: { _controller: SquidProjectGeneralBundle:Destination:destAccueil }
 
 squid_project_general_destination_all:
-    pattern:  /destination
+    pattern:  /destination/all
     defaults: { _controller: SquidProjectGeneralBundle:Destination:destAll }
 
 squid_project_general_destination_new:
     pattern:  /destination/new
     defaults: { _controller: SquidProjectGeneralBundle:Destination:destNew }
+
+squid_project_general_destination_new_DB:
+    pattern:  /destination/new/DB
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destNewDB }
 
 squid_project_general_destination_whitelist:
     pattern:  /destination/whitelist
@@ -49,6 +65,32 @@ squid_project_general_destination_blacklist:
 squid_project_general_destination_update:
     pattern:  /destination/update/{id}
     defaults: { _controller: SquidProjectGeneralBundle:Destination:destUpdate, id:0}
+
+squid_project_general_destination_delete:
+    pattern:  /destination/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destDelete, id:0}
+
+squid_project_general_destination_DB_update:
+    pattern:  /destination/DB/update/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destDBup}
+
+
+
+
+
+squid_project_general_acl:
+    pattern:  /acl
+    defaults: { _controller: SquidProjectGeneralBundle:Acl:aclAccueil }
+
+
+
+
+
+
+
+squid_project_general_horaire:
+    pattern:  /horaire
+    defaults: { _controller: SquidProjectGeneralBundle:Horaire:horaireAccueil }
 
 
 

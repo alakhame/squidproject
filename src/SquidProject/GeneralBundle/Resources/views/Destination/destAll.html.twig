@@ -6,7 +6,7 @@
 {%endblock %}
 
 {% block menu%}
-	{% include 'SquidProjectGeneralBundle:Menus:menuSource.html.twig' %}
+	{% include 'SquidProjectGeneralBundle:Menus:menuDestination.html.twig' %}
 
 {%endblock %}
 
@@ -17,27 +17,26 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nom Source</th>
-                        <th>Adresses IP</th>
+                        <th>Nom destination</th>
+                        <th>Base de données</th>
                         <th> </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {%for s in sources %}
+                    {%for d in ds %}
                     	<tr>
-                    		<td>{{s.id}}</td>
-                    		<td>{{s.nom}}</td>
-                    		<td>{{ render(controller('SquidProjectGeneralBundle:Source:ipsForSource', 
-                    						{ 'id':s.id})) }}</td>
-                    		<td><a href="{{path('squid_project_general_source_update',{'id':s.id})}}">
+                    		<td>{{d.id}}</td>
+                    		<td>{{d.nom}}</td>
+                    		<td>{{ render(controller('SquidProjectGeneralBundle:Destination:DBbyDest', 
+                    						{ 'idDB':d.idDestinationDb})) }}</td>
+                    		<td><a href="{{path('squid_project_general_destination_update',{'id':d.id})}}">
                     			<button   class="btn btn-primary" id="up">
                     			Modifier
                     		</button></a>
-                                <a href="{{path('squid_project_general_source_delete',{'id':s.id})}}">
-                                <button   class="btn btn-primary" id="del">
+                                <a href="{{path('squid_project_general_destination_delete',{'id':d.id})}}">
+                                <button    class="btn btn-primary" id="del">
                                 Supprimer
-                            </button></a>
-                            </td>
+                            </button></a></td>
                     	</tr>
                     {% endfor %}
                 </tbody>
