@@ -92,6 +92,22 @@ squid_project_general_horaire:
     pattern:  /horaire
     defaults: { _controller: SquidProjectGeneralBundle:Horaire:horaireAccueil }
 
+squid_project_general_horaire_all:
+    pattern:  /horaire/all
+    defaults: { _controller: SquidProjectGeneralBundle:Horaire:horaireAll }
+
+squid_project_general_horaire_new:
+    pattern:  /horaire/new
+    defaults: { _controller: SquidProjectGeneralBundle:Horaire:horaireNew }
+
+squid_project_general_horaire_delete:
+    pattern:  /horaire/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Horaire:horaireDelete}
+
+
+
+
+
 
 
 

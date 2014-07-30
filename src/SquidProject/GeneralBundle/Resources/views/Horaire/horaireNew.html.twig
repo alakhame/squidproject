@@ -1,0 +1,240 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuHoraire.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<form role="form"  style="margin-top:20px" method="post" action="{{path("squid_project_general_horaire_new")}}">
+		 <fieldset id="field">
+            <div class="form-group ">
+                <label class="control-label" for="nom">Nom de l'Horaire</label>
+                <input type="text" class="form-control" id="nom" name="nom">
+            </div>
+
+            <fieldset id="week">
+            	<div class="row">
+            		<label class="control-label  col-lg-10" style="text-align:left" for="selw1">Jours et Heures de la semaine</label>	
+            		<button id="addjour" type="button" class="col-lg-2 btn btn-primary" style="float:right"> + Jour</button>           
+            	</div>
+            	<div class="form-group " id="w1">
+            		<label class="control-label" >Jours </label>	
+            		<span class="row">	<input type="checkbox" id="tlj1" name="tlj1" value="*">Tous les Jours</input> </span>        
+	                <span  class="form-inline">
+	                	<input type="checkbox" class="spanj1" name="j1_1" id="j1_1" value="m">Lun</input>
+	                	<input type="checkbox" class="spanj1" name="j1_2" id="j1_2" value="t">Mar</input>
+	                	<input type="checkbox" class="spanj1" name="j1_3" id="j1_3" value="w">Mer</input>
+	                	<input type="checkbox" class="spanj1" name="j1_4" id="j1_4" value="h">Jeu</input>
+	                	<input type="checkbox" class="spanj1" name="j1_5" id="j1_5" value="f">Ven</input>
+	                	<input type="checkbox" class="spanj1" name="j1_6" id="j1_6" value="a">Sam</input>
+	                	<input type="checkbox" class="spanj1" name="j1_7" id="j1_7" value="s">Dim</input>
+	                </span>
+	                <span class="row"></span>
+	                <label class="control-label row"> Heures </label>	
+	                <span class="row">	<input type="checkbox" id="tlh1" name="tlh1" value="*">Toutes les heures</input> </span>   
+	                <span class="form-inline row"> Entre : 
+	                	<select class="form-control spanh1" name="selwh1" id="selwh1">
+	                    	{% for i in 0..23%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}:00">0{{i}}:00</option>
+	                    		{%else%}
+	                    			<option value="{{i}}:00">{{i}}:00</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>  
+	                	Et :
+	                	<select class="form-control spanh1" name="selwh1bis" id="selwh1bis">
+	                    	{% for i in 0..23%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}:00">0{{i}}:00</option>
+	                    		{%else%}
+	                    			<option value="{{i}}:00">{{i}}:00</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select> 
+	                	</select>
+	            </div>
+
+	            <div class="form-group " id="w2">
+            		<label class="control-label" >Jours </label>	
+            		<span class="row">	<input type="checkbox" id="tlj2" name="tlj2" value="*">Tous les Jours</input> </span>        
+	                <span  class="form-inline">
+	                	<input type="checkbox" class="spanj2" name="j2_1" id="j2_1" value="m">Lun</input>
+	                	<input type="checkbox" class="spanj2" name="j2_2" id="j2_2" value="t">Mar</input>
+	                	<input type="checkbox" class="spanj2" name="j2_3" id="j2_3" value="w">Mer</input>
+	                	<input type="checkbox" class="spanj2" name="j2_4" id="j2_4" value="h">Jeu</input>
+	                	<input type="checkbox" class="spanj2" name="j2_5" id="j2_5" value="f">Ven</input>
+	                	<input type="checkbox" class="spanj2" name="j2_6" id="j2_6" value="a">Sam</input>
+	                	<input type="checkbox" class="spanj2" name="j2_7" id="j2_7" value="s">Dim</input>
+	                </span>
+	                <span class="row"></span>
+	                <label class="control-label row"> Heures </label>	
+	                <span class="row">	<input type="checkbox" id="tlh2" name="tlh2" value="*">Toutes les heures</input> </span>   
+	                <span class="form-inline row"> Entre : 
+	                	<select class="form-control spanh2" name="selwh2" id="selwh2">
+	                    	{% for i in 0..23%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}:00">0{{i}}:00</option>
+	                    		{%else%}
+	                    			<option value="{{i}}:00">{{i}}:00</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>  
+	                	Et :
+	                	<select class="form-control spanh2" name="selwh2bis" id="selwh2bis">
+	                    	{% for i in 0..23%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}:00">0{{i}}:00</option>
+	                    		{%else%}
+	                    			<option value="{{i}}:00">{{i}}:00</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select> 
+	                	</select>
+	            </div>
+
+
+		    </fieldset>
+
+		    <fieldset id="date">
+		    	<div class="row">
+		    		<label class="control-label row col-lg-10" style="text-align:left" >Date</label>
+		    		<button id="adddate" type="button" class="col-lg-2 btn btn-primary" style="float:right"> + Date</button>
+				</div>
+		        <div class="form-group " id="d1">
+	                <span class="form-inline">
+	                	<label class="control-label"  for="seldjour1" >Jours</label>
+	                	<select class="form-control" name="seldjour1" id="seldjour1">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 01..30%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}">0{{i}}</option>
+	                    		{%else%}
+	                    			<option value="{{i}}">{{i}}</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>
+	                	<label class="control-label" for="seldmois1"  >Mois</label>
+	                	<select class="form-control" name="seldmois1" id="seldmois1">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 01..12%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}">0{{i}}</option>
+	                    		{%else%}
+	                    			<option value="{{i}}">{{i}}</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>
+	                	<label class="control-label" for="seldan1" >Années</label>
+	                	<select class="form-control" name="seldan1" id="seldan1">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 2014..2020%}
+	                    		<option value="{{i}}">{{i}}</option>
+	                		{% endfor %}
+	                	</select>
+	                </span>
+		        </div>
+
+		         <div class="form-group " id="d2">
+	                <span class="form-inline">
+	                	<label class="control-label"  for="seldjour2" >Jours</label>
+	                	<select class="form-control" name="seldjour2" id="seldjour2">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 1..30%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}">0{{i}}</option>
+	                    		{%else%}
+	                    			<option value="{{i}}">{{i}}</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>
+	                	<label class="control-label" for="seldmois2"  >Mois</label>
+	                	<select class="form-control" name="seldmois2" id="seldmois2">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 1..12%}
+	                    		{%if i<10 %}
+	                    			<option value="0{{i}}">0{{i}}</option>
+	                    		{%else%}
+	                    			<option value="{{i}}">{{i}}</option>
+	                    		{% endif %}
+	                		{% endfor %}
+	                	</select>
+	                	<label class="control-label" for="seldan2" >Années</label>
+	                	<select class="form-control" name="seldan2" id="seldan2">
+	                    	<option value="*">Tout</option>
+	                    	{% for i in 2014..2020%}
+	                    		<option value="{{i}}">{{i}}</option>
+	                		{% endfor %}
+	                	</select>
+	                </span>
+		        </div>
+		        
+	        </fieldset>
+
+	        
+		</fieldset>
+			<input type="hidden"  id="countweek" name="countweek" value="1">
+			<input type="hidden"  id="countdate" name="countdate" value="1">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        
+        </form>	
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			function init(){
+				 $("#d2").hide();
+				 $("#w2").hide();
+			} 
+			function enable_cb() {
+			    $(".spanj1").prop("disabled", this.checked);
+			}
+			function enable_sel() {
+			    $(".spanh1").prop("disabled", this.checked);
+			}
+			function enable_cb2() {
+			    $(".spanj2").prop("disabled", this.checked);
+			}
+			function enable_sel2() {
+			    $(".spanh2").prop("disabled", this.checked);
+			}
+
+			init();
+			var buttondate=$("#adddate"), buttonjour=$("#addjour");
+		   	var tlj1=$("#tlj1"), tlj2=$("#tlj2");
+		   	tlj1.click(enable_cb); tlj2.click(enable_cb2);
+		   	var tlh1=$("#tlh1"), tlh2=$("#tlh2");
+		   	tlh1.click(enable_sel); tlh2.click(enable_sel2);
+
+		   	buttonjour.click(function(){
+		   		var c= parseInt($("#countweek").attr("value"))+1;
+		   		if(c==2){
+		   			$("#countweek").attr("value",c);
+		   			$("#w2").show(500);
+					
+				}
+				else alert("vous ne pouvez pas dépasser ce nombre maximum");
+		   	});
+
+		   	buttondate.click(function(){
+		   		var c= parseInt($("#countdate").attr("value"))+1;
+		   		if(c==2){
+		   			$("#countdate").attr("value",c);
+		   			$("#d2").show(500);
+					
+				}
+				else alert("vous ne pouvez pas dépasser ce nombre maximum");
+		   	});
+
+
+    		
+		});
+	</script>
+{% endblock %}

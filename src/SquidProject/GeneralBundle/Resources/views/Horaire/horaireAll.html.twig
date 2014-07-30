@@ -1,0 +1,44 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuHoraire.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Horaire</th>
+                        <th>Détails Horaires</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for h in hs %}
+                    	<tr>
+                    		<td>{{h.id}}</td>
+                    		<td>{{h.nom}}</td>
+                    		<td style="text-align:left">{{ render(controller('SquidProjectGeneralBundle:Horaire:detailsByTimeID', 
+                    						{ 'idTime':h.id})) }}</td>
+                    		<td><a href="{{path('squid_project_general_horaire_delete',{'id':h.id})}}">
+                                <button    class="btn btn-primary" id="del">
+                                Supprimer
+                            </button></a></td>
+                    	</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+	</div>
+
+	
+{% endblock %}
