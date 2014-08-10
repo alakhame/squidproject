@@ -1,0 +1,54 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuAcl.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th> ID</th>
+                        <th> Nom Acl</th>
+                        <th> Source</th>
+                        <th> Horaire </th>
+                        <th> Config Acl </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for a in acls %}
+                    	<tr>
+                    		<td>{{a.id}}</td>
+                    		<td>{{a.nom}}</td>
+                    		<td style=" ">{{ render(controller('SquidProjectGeneralBundle:Source:getNomById', 
+                    						{ 'id':a.idSource})) }}</td>
+                            <td style=" ">{{ render(controller('SquidProjectGeneralBundle:Horaire:getNomById', 
+                                            { 'id':a.idTime})) }}</td>
+                            <td style="text-align:left">{{ render(controller('SquidProjectGeneralBundle:Acl:buildConfig', 
+                                            { 'id':a.id})) }} </td>
+                    		<td><a href="{{path('squid_project_general_acl_delete',{'id':a.id})}}">
+                                <button    class="btn btn-primary" id="del">
+                                Supprimer
+                            </button></a>
+                                <a href="{{path('squid_project_general_acl_update',{'id':a.id})}}">
+                                <button    class="btn btn-primary" id="update">
+                                Modifier
+                            </button></a></td>
+                    	</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+	</div>
+
+	
+{% endblock %}

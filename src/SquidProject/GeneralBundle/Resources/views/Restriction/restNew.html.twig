@@ -1,0 +1,73 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuRestriction.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<button   style="float:right" class="btn btn-primary" id="addnew">Nouvelle Destination</button>
+		<form role="form"  style="margin-top:20px" method="post" action="{{path("squid_project_general_restriction_new")}}">
+		 <fieldset id="field">
+           	<div class="form-group " id="acls">
+                <label class="control-label" for="acl">Choisir ACL</label>
+                <select class="form-control" name="acl" id="aclSel">
+                    {% for a in acls %}
+                    	<option value="{{a.id}}">{{a.nom}}</option>
+                	{% endfor %}
+                </select>
+	        </div>
+	        {% for i in 1..5 %}
+		        <div class="form-inline " id="dest{{i}}">
+	                <label class="control-label" for="destsel{{i}}">Destinations</label>
+	                <select class="form-control" name="destsel{{i}}" id="destsel{{i}}">
+	                    {% for d in dest %}
+	                    	<option value="{{d.id}}">{{d.nom}}</option>
+	                	{% endfor %}
+	                </select>
+	                <div class="btn-group" data-toggle="buttons">
+		                <label class="btn btn-default ">
+		                      <input type="radio" name="type{{i}}" value="1" checked > Autoriser
+		                </label>
+		                <label class="btn btn-default">
+		                	<input type="radio" name="type{{i}}" value="0"> Bloquer </input>
+		                </label>
+		            </div>
+		        </div>
+	        {% endfor %}
+	        <input type="hidden"  id="count" name="count" value="1">
+		</fieldset>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        
+        </form>	
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			function init(){
+				for(var i=2; i<6;i++){
+					$("#g"+i).hide();
+				}
+			} 
+
+			init();
+		   var add= $("#addnew");
+		   add.click(function(){
+		   		var c= parseInt($("#count").attr("value"))+1;
+		   		if(c<5){
+		   			$("#count").attr("value",c);
+		   			$("#g"+c).show(500);
+					
+				}
+				else alert("vous ne pouvez pas dépasser ce nombre maximum");
+				
+		   });
+		});
+	</script>
+{% endblock %}

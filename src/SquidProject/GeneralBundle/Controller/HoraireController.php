@@ -171,4 +171,10 @@ class HoraireController extends Controller
         
     	return $this->render('SquidProjectGeneralBundle:Horaire:success.html.twig',array('pseudo'=>$pseudo));
     }
+
+     public function getNomByIdAction($id){
+        $doctrine = $this->getDoctrine();
+        $h=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->findOneBy(array('id'=>$id ));
+        return new Response($h->getNom());
+    }
 }

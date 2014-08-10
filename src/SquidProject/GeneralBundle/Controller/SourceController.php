@@ -154,6 +154,12 @@ class SourceController extends Controller
         return $s;
     }
 
+    public function getNomByIdAction($id){
+        $doctrine = $this->getDoctrine();
+        $s=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->findOneBy(array('id'=>$id ));
+        return new Response($s->getNom());
+    }
+
     public function sourceDeleteAction($id){
         $pseudo=$this->init()->getUsername();
           $em = $this->getDoctrine()->getManager();

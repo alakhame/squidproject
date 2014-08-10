@@ -82,6 +82,22 @@ squid_project_general_acl:
     pattern:  /acl
     defaults: { _controller: SquidProjectGeneralBundle:Acl:aclAccueil }
 
+squid_project_general_acl_new:
+    pattern:  /acl/new
+    defaults: { _controller: SquidProjectGeneralBundle:Acl:aclNew }
+
+squid_project_general_acl_all:
+    pattern:  /acl/all
+    defaults: { _controller: SquidProjectGeneralBundle:Acl:aclAll }
+
+squid_project_general_acl_delete:
+    pattern:  /acl/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Acl:aclDelete,id:0 }
+
+squid_project_general_acl_update:
+    pattern:  /acl/update/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Acl:aclUpdate, id:0}
+
 
 
 
@@ -106,6 +122,18 @@ squid_project_general_horaire_delete:
 
 
 
+
+squid_project_general_restriction:
+    pattern:  /restriction
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:restAccueil }
+
+squid_project_general_restriction_new:
+    pattern:  /restriction/new
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:restNew }
+
+squid_project_general_restriction_all:
+    pattern:  /restriction/all
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:restAll }
 
 
 
