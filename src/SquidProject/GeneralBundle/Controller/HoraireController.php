@@ -9,6 +9,7 @@ use SquidProject\GeneralBundle\Entity\DateSquid;
 use Symfony\Component\HttpFoundation\Response;
 
 
+use SquidProject\GeneralBundle\Entity\EtatMAS;
 
 class HoraireController extends Controller
 {
@@ -20,6 +21,14 @@ class HoraireController extends Controller
     {   
     	$pseudo=$this->init()->getUsername();
     	return $this->render('SquidProjectGeneralBundle:Horaire:horaire.html.twig',array('pseudo'=>$pseudo));
+    }
+
+    public function turnEtatToZero(){
+      $em = $this->getDoctrine()->getManager();
+      $etat=$em->getRepository('SquidProjectGeneralBundle:EtatMAS')->findAll();
+          $etat[0]->setEtat("0");
+          $em->flush();
+          $em->clear();
     }
 
     public function horaireNewAction()
@@ -112,7 +121,7 @@ class HoraireController extends Controller
 		  	  $em->clear();
 	  	  }
           
-
+          $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Horaire:success.html.twig',array('pseudo'=>$pseudo));
         } 
         else {
@@ -168,7 +177,7 @@ class HoraireController extends Controller
         $em->remove($h);
        	$em->flush();
        	$em->clear();
-        
+      $this->turnEtatToZero();
     	return $this->render('SquidProjectGeneralBundle:Horaire:success.html.twig',array('pseudo'=>$pseudo));
     }
 

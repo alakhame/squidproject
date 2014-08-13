@@ -10,12 +10,21 @@ use SquidProject\GeneralBundle\Entity\Restrictions;
 use SquidProject\GeneralBundle\Entity\Acl;
 use Symfony\Component\HttpFoundation\Response;
 
+use SquidProject\GeneralBundle\Entity\EtatMAS;
 
 
 class RestrictionController extends Controller
 {
     public function init(){
        return $this->container->get('security.context')->getToken()->getUser();
+    }
+
+    public function turnEtatToZero(){
+      $em = $this->getDoctrine()->getManager();
+      $etat=$em->getRepository('SquidProjectGeneralBundle:EtatMAS')->findAll();
+          $etat[0]->setEtat("0");
+          $em->flush();
+          $em->clear();
     }
 
     public function restAccueilAction()
@@ -46,7 +55,7 @@ class RestrictionController extends Controller
           		$em->flush();
           		$em->clear();
            }
-            
+            $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Restriction:success.html.twig',array('pseudo'=>$pseudo));
         } 
     	else{
@@ -91,6 +100,20 @@ class RestrictionController extends Controller
     	return $this->render('SquidProjectGeneralBundle:Restriction:success.html.twig',array('pseudo'=>$pseudo));
     }
 
+    public function getDestByRestId2Action($id)
+    { 
+        $em = $this->getDoctrine()->getManager();
+        $r=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->find($id);
+        $destsIds=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$id));
+        $dests=array();
+        foreach ($destsIds as $dId) {
+            $dests[]=$em->getRepository('SquidProjectGeneralBundle:Destination')->find($dId->getIdDest()) ;
+        }
+
+        return $this->render('SquidProjectGeneralBundle:Restriction:test.html.twig',array('r'=>$r,'ds'=>$dests));
+    
+    }
+
     public function getDestByRestIdAction($id)
     {
     	$pseudo=$this->init()->getUsername();
@@ -99,7 +122,7 @@ class RestrictionController extends Controller
 	    $destsIds=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$id));
 		foreach ($destsIds as $dId) {
 			$destName=$this->getDestNameByIdAction($dId->getIdDest()) ;
-			$supprimer="<div class=\"col-lg-3\" > <a href=\"{{path('squid_project_general_restriction_delete',{'id':r.id})}}\">
+			$supprimer="<div class=\"col-lg-3\" > <a href=\"/delete',{'id':r.id})}}\">
                                 <button    class=\"btn btn-primary\" id=\"del\">
                                 Supprimer
                             </button></a> </div>";

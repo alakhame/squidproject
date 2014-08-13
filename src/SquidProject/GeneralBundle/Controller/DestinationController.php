@@ -10,6 +10,7 @@ use SquidProject\GeneralBundle\Entity\DestinationDB;
 use SquidProject\GeneralBundle\Entity\Destination;
 use Symfony\Component\HttpFoundation\Response;
 
+use SquidProject\GeneralBundle\Entity\EtatMAS;
 
 
 class DestinationController extends Controller
@@ -17,7 +18,15 @@ class DestinationController extends Controller
     public function init(){
        return $this->container->get('security.context')->getToken()->getUser();
     }
-   
+    
+    public function turnEtatToZero(){
+      $em = $this->getDoctrine()->getManager();
+      $etat=$em->getRepository('SquidProjectGeneralBundle:EtatMAS')->findAll();
+          $etat[0]->setEtat("0");
+          $em->flush();
+          $em->clear();
+    }
+
     public function destAccueilAction()
     {  
         $pseudo=$this->init()->getUsername();
@@ -52,12 +61,14 @@ class DestinationController extends Controller
                 $db->setType(1);
                 $em->flush();
                 $em->clear();
+                $this->turnEtatToZero();
                 return $this->destBlAction();
             }
             else{
                 $db->setType(0);
                 $em->flush();
                 $em->clear();
+                $this->turnEtatToZero();
                 return $this->destWlAction();
             }  
     }
@@ -74,7 +85,7 @@ class DestinationController extends Controller
           $em->persist($db);
           $em->flush();
           $em->clear();
-
+          $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Destination:success.html.twig',array('pseudo'=>$pseudo));
        }
        else {
@@ -95,7 +106,7 @@ class DestinationController extends Controller
           $em->persist($dest);
           $em->flush();
           $em->clear();
-
+          $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Destination:success.html.twig',array('pseudo'=>$pseudo));
        }
        else {
@@ -118,6 +129,7 @@ class DestinationController extends Controller
           $dest->setIdDestinationDb($_POST['idDB']);
           $em->flush();
           $em->clear();
+          $this->turnEtatToZero();
           return $this->render('SquidProjectGeneralBundle:Destination:success.html.twig',array('pseudo'=>$pseudo));
 
         }
@@ -145,6 +157,7 @@ class DestinationController extends Controller
           $em->remove($dest);
           $em->flush();
           $em->clear();
+          $this->turnEtatToZero();
           return $this->render('SquidProjectGeneralBundle:Destination:success.html.twig',array('pseudo'=>$pseudo));
     }
 

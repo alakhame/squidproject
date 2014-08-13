@@ -1,0 +1,12 @@
+{% for d in ds %}
+<div class="row"><div class="col-lg-3" >{{d.nom}}}} :</div>   
+ <div class="col-lg-3" > <a href=""> <button    class="btn btn-primary" id="del">
+                                Supprimer
+                            </button></a> </div>
+<div class="col-lg-3" ><a href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
+                               Bloquer</a> </div>
+<div class="col-lg-3" ><a href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
+                                Autoriser </a> </div>
+           	 </div>;
+
+{% endfor %}

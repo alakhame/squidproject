@@ -10,12 +10,22 @@ use SquidProject\GeneralBundle\Entity\Source;
 use SquidProject\GeneralBundle\Entity\Acl;
 use Symfony\Component\HttpFoundation\Response;
 
+use SquidProject\GeneralBundle\Entity\EtatMAS;
+
 
 
 class AclController extends Controller
 {
     public function init(){
        return $this->container->get('security.context')->getToken()->getUser();
+    }
+
+    public function turnEtatToZero(){
+        $em = $this->getDoctrine()->getManager();
+        $etat=$em->getRepository('SquidProjectGeneralBundle:EtatMAS')->findAll();
+        $etat[0]->setEtat("0");
+        $em->flush();
+        $em->clear();
     }
 
     public function aclAccueilAction()
@@ -46,6 +56,7 @@ class AclController extends Controller
 
             $em->persist($acl);
             $em->flush();
+            $this->turnEtatToZero();
 
            return $this->render('SquidProjectGeneralBundle:Acl:success.html.twig',array('pseudo'=>$pseudo));
         } 
@@ -92,6 +103,7 @@ class AclController extends Controller
 	    $acl=$em->getRepository('SquidProjectGeneralBundle:Acl')->find($id);
 	    $em->remove($acl);
 	    $em->flush();
+        $this->turnEtatToZero();
     	return $this->render('SquidProjectGeneralBundle:Acl:success.html.twig',array('pseudo'=>$pseudo));
     }
 
@@ -111,7 +123,7 @@ class AclController extends Controller
 
             $em->persist($acl);
             $em->flush();
-
+            $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Acl:success.html.twig',array('pseudo'=>$pseudo));
         } 
     	else{

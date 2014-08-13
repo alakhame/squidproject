@@ -9,6 +9,9 @@ use SquidProject\GeneralBundle\Entity\Source;
 use Symfony\Component\HttpFoundation\Response;
 
 
+use SquidProject\GeneralBundle\Entity\EtatMAS;
+
+
 
 class SourceController extends Controller
 {
@@ -16,6 +19,14 @@ class SourceController extends Controller
        return $this->container->get('security.context')->getToken()->getUser();
     }
     
+    public function turnEtatToZero(){
+      $em = $this->getDoctrine()->getManager();
+      $etat=$em->getRepository('SquidProjectGeneralBundle:EtatMAS')->findAll();
+          $etat[0]->setEtat("0");
+          $em->flush();
+          $em->clear();
+    }
+
     public function getIpByIpSource($id){
         $doctrine = $this->getDoctrine();
         $ip=$doctrine->getRepository('SquidProjectGeneralBundle:Ip')->findOneBy(array('id'=>$id));
@@ -44,7 +55,7 @@ class SourceController extends Controller
 
             $em->persist($ip);
             $em->flush();
-
+            $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
         } 
         else return $this->render('SquidProjectGeneralBundle:Source:sourceNewIP.html.twig',array('pseudo'=>$pseudo));
@@ -73,7 +84,7 @@ class SourceController extends Controller
             $em->clear();
           }
           
-
+          $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
         } 
         else {
@@ -115,6 +126,7 @@ class SourceController extends Controller
             $em->clear();
           }
         }
+        $this->turnEtatToZero();
     }
 
     public function SourceUpdateAction($id){
@@ -137,6 +149,7 @@ class SourceController extends Controller
             $em->flush();
             $em->clear();
           }
+          $this->turnEtatToZero();
           return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
       
         }
@@ -167,6 +180,7 @@ class SourceController extends Controller
           $em->remove($s);
           $em->flush();
           $em->clear();
+          $this->turnEtatToZero();
           return $this->render('SquidProjectGeneralBundle:Source:success.html.twig',array('pseudo'=>$pseudo));
     }
 
