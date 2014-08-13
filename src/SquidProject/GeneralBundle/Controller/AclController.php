@@ -24,6 +24,12 @@ class AclController extends Controller
     	return $this->render('SquidProjectGeneralBundle:Acl:acl.html.twig',array('pseudo'=>$pseudo));
     }
 
+    public function getNomByIdAction($id){
+        $doctrine = $this->getDoctrine();
+        $acl=$doctrine->getRepository('SquidProjectGeneralBundle:Acl')->find($id);
+        return new Response($acl->getNom());
+    }   
+
     public function aclNewAction(){
 
     	$pseudo=$this->init()->getUsername();

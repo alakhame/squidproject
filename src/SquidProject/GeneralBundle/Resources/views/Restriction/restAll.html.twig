@@ -1,0 +1,41 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuRestriction.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom Acl</th>
+                        <th >Etat destinations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for r in rests %}
+                    	<tr>
+                    		<td>{{ render(controller('SquidProjectGeneralBundle:Acl:getNomById', 
+                                            { 'id':r.idAcl})) }} </td>
+                    		<td style="text-align:left">
+                                {{ render(controller('SquidProjectGeneralBundle:Restriction:getDestByRestId', 
+                                            { 'id':r.idAcl})) }}</td>
+                    		 
+                    	</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a onclick="return false;" > hhh </a>
+        </div>
+	</div>
+
+	
+{% endblock %}

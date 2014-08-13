@@ -135,6 +135,26 @@ squid_project_general_restriction_all:
     pattern:  /restriction/all
     defaults: { _controller: SquidProjectGeneralBundle:Restriction:restAll }
 
+squid_project_general_restriction_delete:
+    pattern:  /restriction/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:restDelete}
+
+squid_project_general_restriction_toggle:
+    pattern:  /restriction/toggle/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:restToggle}
+
+
+squid_project_general_MAS:
+    pattern:  /miseajour
+    defaults: { _controller: SquidProjectGeneralBundle:SG:mas}
+
+
+
+squid_project_general_test:
+    pattern:  /test
+    defaults: { _controller: SquidProjectGeneralBundle:SG:test}
+
+
 
 
 

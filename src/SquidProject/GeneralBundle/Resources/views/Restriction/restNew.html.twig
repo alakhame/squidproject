@@ -43,7 +43,7 @@
 	        {% endfor %}
 	        <input type="hidden"  id="count" name="count" value="1">
 		</fieldset>
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+           <div style="margin-top:20px" > <button type="submit" class="btn btn-primary">Ajouter</button> </div>
         
         </form>	
 	</div>
@@ -51,8 +51,8 @@
 	<script type="text/javascript">
 		$(function(){
 			function init(){
-				for(var i=2; i<6;i++){
-					$("#g"+i).hide();
+				for(var i=2; i<=5;i++){
+					$("#dest"+i).hide();
 				}
 			} 
 
@@ -60,9 +60,9 @@
 		   var add= $("#addnew");
 		   add.click(function(){
 		   		var c= parseInt($("#count").attr("value"))+1;
-		   		if(c<5){
+		   		if(c<=5){
 		   			$("#count").attr("value",c);
-		   			$("#g"+c).show(500);
+		   			$("#dest"+c).show(500);
 					
 				}
 				else alert("vous ne pouvez pas dépasser ce nombre maximum");

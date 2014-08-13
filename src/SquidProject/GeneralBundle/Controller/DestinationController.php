@@ -154,6 +154,12 @@ class DestinationController extends Controller
         return new Response($db->getNom());
     }
 
+    public function getNomByIdAction($id){
+        $doctrine = $this->getDoctrine();
+        $d=$doctrine->getRepository('SquidProjectGeneralBundle:Destination')->find($id);
+        return new Response($d->getNom());
+    }
+
 }
 
 
