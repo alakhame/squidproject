@@ -26,7 +26,7 @@
                     {%for b in bl%}
                     	<tr>
                     		<td>{{b.id}}</td>
-                    		<td>{{b.nom}}</td>
+                    		<td><a href="{{path('squid_project_general_destination_DB_content',{'id':b.id})}}">{{b.nom}}</a></td>
                     		<td> bloqué </td>
                             <td><a href="{{path('squid_project_general_destination_DB_update',{'id':b.id})}}">
                                 <button   style="float:right" class="btn btn-primary" id="up">

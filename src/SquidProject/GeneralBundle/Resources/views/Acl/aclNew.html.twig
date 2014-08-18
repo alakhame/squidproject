@@ -33,7 +33,7 @@
             <div class="form-group ">
                 <label class="control-label" for="horaire">Horaire</label>
                 <select class="form-control" name="horaire" id="horaire">
-                    <option value=""></option>
+                    <option value="-1">Pas d'horaires</option>
                     {% for h in horaires %}
                         <option value="{{h.id}}">{{h.nom}}</option>
                     {% endfor %}

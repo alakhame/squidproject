@@ -1,13 +1,15 @@
 {% for d in ds %}
 
-<div class="row"><div class="col-lg-3" >{{d.nom}}}} :</div>   
- <div class="col-lg-3" > <a href=""> <button    class="btn btn-primary" id="del">
+<div class="row"><div class="col-lg-4" >{{d.nom}} :</div>   
+ <div class="col-lg-4" > <a href="{{path('squid_project_general_restriction_delete',{'id':r.id})}}"> <button    class="btn btn-primary" id="del">
                                 Supprimer
                             </button></a> </div>
-<div class="col-lg-3" ><a href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
+<div class="col-lg-2" >
+<a {% if r.type==0 %}  onclick="return false;" style="color:black" {%endif%} href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
                                Bloquer</a> </div>
-<div class="col-lg-3" ><a href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
+<div class="col-lg-2" >
+<a {% if r.type==1 %}  onclick="return false;" style="color:black" {%endif%} href="{{path('squid_project_general_restriction_toggle',{'id':r.id})}}">
                                 Autoriser </a> </div>
-           	 </div>;
+           	 </div>
 
 {% endfor %}

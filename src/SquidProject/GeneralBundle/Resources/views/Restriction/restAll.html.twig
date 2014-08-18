@@ -27,7 +27,7 @@
                                             { 'id':r.idAcl})) }} </td>
                     		<td style="text-align:left">
                                 {{ render(controller('SquidProjectGeneralBundle:Restriction:getDestByRestId2', 
-                                            { 'id':r.idAcl})) }}
+                                            { 'id':r.id, 'idAcl':r.idAcl})) }}
 
 
                                             </td>
@@ -35,8 +35,7 @@
                     	</tr>
                     {% endfor %}
                 </tbody>
-            </table>
-            <a onclick="return false;" > hhh </a>
+            </table> 
         </div>
 	</div>
 

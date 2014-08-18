@@ -100,11 +100,11 @@ class RestrictionController extends Controller
     	return $this->render('SquidProjectGeneralBundle:Restriction:success.html.twig',array('pseudo'=>$pseudo));
     }
 
-    public function getDestByRestId2Action($id)
+    public function getDestByRestId2Action($id,$idAcl)
     { 
         $em = $this->getDoctrine()->getManager();
         $r=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->find($id);
-        $destsIds=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$id));
+        $destsIds=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$idAcl));
         $dests=array();
         foreach ($destsIds as $dId) {
             $dests[]=$em->getRepository('SquidProjectGeneralBundle:Destination')->find($dId->getIdDest()) ;
@@ -112,7 +112,7 @@ class RestrictionController extends Controller
 
         return $this->render('SquidProjectGeneralBundle:Restriction:test.html.twig',array('r'=>$r,'ds'=>$dests));
     
-    }
+    } 
 
     public function getDestByRestIdAction($id)
     {
@@ -140,8 +140,8 @@ class RestrictionController extends Controller
 
 			$rep.="\t<div class=\"row\"><div class=\"col-lg-3\" >".$destName."</div>   :".$autoriser.$bloquer;
 			$rep.=$supprimer."</div>\n";
-		}
-		return new Response(nl2br($rep)) ;
+		
+  }	return new Response(nl2br($rep)) ;
 
     }
 
@@ -154,7 +154,19 @@ class RestrictionController extends Controller
 
     public function restToggleAction($id)
     {	
-    	//$this->restAllAction();
+      $pseudo=$this->init()->getUsername();
+    	$em = $this->getDoctrine()->getManager();
+      $r=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->find($id); 
+      if($r->getType()==1){
+          $r->setType(0);
+      } else {
+        $r->setType(1);
+      }
+      $em->flush();
+      $em->clear();
+      $this->turnEtatToZero();
+      //return $this->render('SquidProjectGeneralBundle:Restriction:success.html.twig',array('pseudo'=>$pseudo));
+     return $this->restAllAction();  
     }
 
 

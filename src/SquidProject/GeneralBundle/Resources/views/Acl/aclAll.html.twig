@@ -20,7 +20,6 @@
                         <th> Nom Acl</th>
                         <th> Source</th>
                         <th> Horaire </th>
-                        <th> Config Acl </th>
                         <th> </th>
                     </tr>
                 </thead>
@@ -28,21 +27,30 @@
                     {%for a in acls %}
                     	<tr>
                     		<td>{{a.id}}</td>
-                    		<td>{{a.nom}}</td>
-                    		<td style=" ">{{ render(controller('SquidProjectGeneralBundle:Source:getNomById', 
-                    						{ 'id':a.idSource})) }}</td>
-                            <td style=" ">{{ render(controller('SquidProjectGeneralBundle:Horaire:getNomById', 
-                                            { 'id':a.idTime})) }}</td>
-                            <td style="text-align:left">{{ render(controller('SquidProjectGeneralBundle:Acl:buildConfig', 
-                                            { 'id':a.id})) }} </td>
-                    		<td><a href="{{path('squid_project_general_acl_delete',{'id':a.id})}}">
-                                <button    class="btn btn-primary" id="del">
-                                Supprimer
-                            </button></a>
+                    		
+                            <td>{{a.nom}}</td>
+                    		
+                            <td style=" ">
+                                {{ render(controller('SquidProjectGeneralBundle:Source:getNomById', 
+                    						{ 'id':a.idSource})) }}
+                            </td>
+                            
+                            <td style=" ">
+                                {% if a.idTime !="-1" %}
+                                    {{ render(controller('SquidProjectGeneralBundle:Horaire:getNomById', 
+                                            { 'id':a.idTime})) }}
+                                {%else%}
+                                {%endif %}
+                            </td>
+                            
+                            <td>
+                                <a href="{{path('squid_project_general_acl_delete',{'id':a.id})}}">
+                                    <button class="btn btn-primary" id="del"> Supprimer </button>
+                                </a>
                                 <a href="{{path('squid_project_general_acl_update',{'id':a.id})}}">
-                                <button    class="btn btn-primary" id="update">
-                                Modifier
-                            </button></a></td>
+                                    <button class="btn btn-primary" id="update"> Modifier </button>
+                                </a>
+                            </td>
                     	</tr>
                     {% endfor %}
                 </tbody>

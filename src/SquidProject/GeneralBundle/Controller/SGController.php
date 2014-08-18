@@ -3,7 +3,7 @@
 namespace SquidProject\GeneralBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use SquidProject\GeneralBundle\Entity\Ip;
+use SquidProject\GeneralBundle\Entity\Config;
 use SquidProject\GeneralBundle\Entity\IpSource;
 use SquidProject\GeneralBundle\Entity\Restrictions;
 
@@ -21,17 +21,17 @@ class SGController extends Controller
 		$doctrine = $this->getDoctrine();
 	    $src=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->find($id);
 	    
-	    $sourceConfig.="src  ".$src->getNom()."  {"."\n\r";
+	    $sourceConfig.="src  ".$src->getNom()."  {"."\n";
 	    $IpSources=$doctrine->getRepository('SquidProjectGeneralBundle:IpSource')->findBy(array("idSource"=>$id));
 	    foreach ($IpSources as $IPs) {
 	    	$ip=$doctrine->getRepository('SquidProjectGeneralBundle:Ip')->find($IPs->getIdIp());
 	    	if($ip->getType()!=1){
-	    		$sourceConfig.="\t"."ip"."\t".$ip->getIp()."\n\r";
+	    		$sourceConfig.="\t"."ip"."\t".$ip->getIp()."\n";
 	    	}
 	    	else {
-	    		$sourceConfig.="\t"."iplist"."\t".$ip->getIp()."\n\r";
+	    		$sourceConfig.="\t"."iplist"."\t".$ip->getIp()."\n";
 	    	}
-	    	$sourceConfig.="}\n\r";
+	    	$sourceConfig.="}\n";
 	    }
 		return $sourceConfig;
 	}
@@ -42,7 +42,7 @@ class SGController extends Controller
 		$srcs=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->findAll();
 
 		foreach ($srcs as $src) {
-			$allSourceConfig.="\n\r";
+			$allSourceConfig.="\n";
 			$allSourceConfig.=$this->getSourceConfig($src->getId());
 		}
 		return $allSourceConfig;
@@ -55,10 +55,10 @@ class SGController extends Controller
 	    $dest=$doctrine->getRepository('SquidProjectGeneralBundle:Destination')->find($id);
 	    $destDB=$doctrine->getRepository('SquidProjectGeneralBundle:DestinationDB')->find($dest->getIdDestinationDb());
 	    
-	    $destConfig.="dest  ".$dest->getNom()."  {"."\n\r";
-	 	$destConfig.="\t"."domainlist"."\t".$destDB->getNom()."/domains"."\n\r";
-	 	$destConfig.="\t"."urllist"."\t".$destDB->getNom()."/urls"."\n\r";
-	    $destConfig.="}\n\r";
+	    $destConfig.="dest  ".$dest->getNom()."  {"."\n";
+	 	$destConfig.="\t"."domainlist"."\t".$destDB->getNom()."/domains"."\n";
+	 	//$destConfig.="\t"."urllist"."\t".$destDB->getNom()."/urls"."\n";
+	    $destConfig.="}\n";
 	    
 		return  $destConfig;
 	}
@@ -69,7 +69,7 @@ class SGController extends Controller
 		$dests=$doctrine->getRepository('SquidProjectGeneralBundle:Destination')->findAll();
 
 		foreach ($dests as $dest) {
-			$allDestConfig.="\n\r";
+			$allDestConfig.="\n";
 			$allDestConfig.=$this->getDestinationConfig($dest->getId());
 		}
 		return $allDestConfig;
@@ -98,23 +98,29 @@ class SGController extends Controller
 	public function getAclConfig($id){
 		$doctrine = $this->getDoctrine();
 	    $acl=$doctrine->getRepository('SquidProjectGeneralBundle:Acl')->find($id);
-	    $time=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->find($acl->getIdTime());
+	    if($acl->getIdTime()!=-1){
+            $time=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->find($acl->getIdTime())->getNom();
+        }
+        else { 
+        	$time="no time";
+       	}
+	 
 	    $src=$doctrine->getRepository('SquidProjectGeneralBundle:Source')->find($acl->getIdSource());
 	    
         $config="";
-        if(isset($time)){
-        	$config.="\t".$acl->getNom()." within  ".$time->getNom()."{ \r\n";
+        if( $time!="no time"){
+        	$config.="\t".$src->getNom()." within  ".$time->getNom()."{ \n";
         }
         else {
-        	$config.="\t".$acl->getNom()." within  ".$time->getNom()."{ \r\n";
+        	$config.="\t".$src->getNom()." { \n";
         }
-	    $config.="\t\t"."pass ".$this->getAclRestrictions($acl->getId())." none \r\n" ;
-	    $config.="\t\t"."redirect ".$acl->getRedirectLink()." \r\n" ;
+	    $config.="\t\t"."pass ".$this->getAclRestrictions($acl->getId())." none \n" ;
+	    $config.="\t\t"."redirect ".$acl->getRedirectLink()." \n" ;
 	    if(isset($time)){
-        	$config.="\t"."} else { \r\n";
-	   		$config.="\t\t"."pass all \r\n" ;
+        	$config.="\t"."} else { \n";
+	   		$config.="\t\t"."pass none \n" ;
         }
-        	$config.="\t"."} \r\n" ;
+        	$config.="\t"."} \n" ;
 	    return  $config  ;
 	}
 
@@ -123,17 +129,17 @@ class SGController extends Controller
 		$doctrine = $this->getDoctrine();
 		$dests=$doctrine->getRepository('SquidProjectGeneralBundle:Acl')->findAll();
 
-		$allAclConfig="acl  {"."\n\r";
+		$allAclConfig="acl  {"."\n";
 		foreach ($dests as $dest) {
-			$allAclConfig.="\n\r";
+			$allAclConfig.="\n";
 			$allAclConfig.=$this->getAclConfig($dest->getId());
 		}
-		$allAclConfig.="\n\r";
-		$allAclConfig.="\tdefault {"."\n\r";
-		$allAclConfig.="\t\t"."pass  none"."\n\r";
-		$allAclConfig.="\t\t"."redirect  http://blocked.default"."\n\r";
-		$allAclConfig.="\t} \r\n" ;
-		$allAclConfig.="} \r\n" ;
+		$allAclConfig.="\n";
+		$allAclConfig.="\tdefault {"."\n";
+		$allAclConfig.="\t\t"."pass  none"."\n";
+		$allAclConfig.="\t\t"."redirect  http://blocked.default"."\n";
+		$allAclConfig.="\t} \n" ;
+		$allAclConfig.="} \n" ;
 		return $allAclConfig;
 	}
 
@@ -144,14 +150,15 @@ class SGController extends Controller
         $weeks=$doctrine->getRepository('SquidProjectGeneralBundle:WeekSquid')->findBy(array('idTime'=>$id));
         $dates=$doctrine->getRepository('SquidProjectGeneralBundle:DateSquid')->findBy(array('idTime'=>$id));
          
-        $horaire.="time  ".$time->getNom()."  {"."\n\r";
+        $horaire.="time  ".$time->getNom()."  {"."\n";
         foreach ($weeks as $w) {
-        	$horaire.="\t"."weekly"."\t".$w->getWeekly()."\n\r";
+        	$horaire.="\t"."weekly"."\t".$w->getWeekly()."\n";
         }
         foreach ($dates as $d) {
-        	$horaire.="\t"."date"."\t".$d->getDate()."\n\r";
+        	if($d->getDate()!="*.*.*")
+        		$horaire.="\t"."date"."\t".$d->getDate()."\n";
         }
-        $horaire.="}"."\n\r";
+        $horaire.="}"."\n";
 
         return  $horaire ;
 	}
@@ -162,7 +169,7 @@ class SGController extends Controller
 		$times=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->findAll();
 
 		foreach ($times as $t) {
-			$allTimeConfig.="\n\r";
+			$allTimeConfig.="\n";
 			$allTimeConfig.=$this->getTimeConfig($t->getId());
 		}
 		return $allTimeConfig;
@@ -170,14 +177,18 @@ class SGController extends Controller
 
 
 	public function getSGConfig(){
-		$entete= "logdir /usr/local/squidGuard/log"."\n\r";
-     	$entete.="dbhome /usr/local/squidGuard/db"."\n\r";
+		$em = $this->getDoctrine()->getManager();
+        $db_path=$em->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array('nom'=>"dbPath"));
+        $log_path=$em->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array('nom'=>"logPath"));
+        
+		$entete ="dbhome   ".$db_path->getValeur()."\n";
+     	$entete.="logdir   ".$log_path->getValeur();
 
      	$config=$entete;
-     	$config.="\n\r".$this->getAllTimeConfig();
-     	$config.="\n\r".$this->getAllSourceConfig();
-     	$config.="\n\r".$this->getAllDestinationConfig();
-     	$config.="\n\r".$this->getAllAclConfig();
+     	$config.="\n".$this->getAllTimeConfig();
+     	$config.="\n".$this->getAllSourceConfig();
+     	$config.="\n".$this->getAllDestinationConfig();
+     	$config.="\n".$this->getAllAclConfig();
 
      	return  $config ;
 	}
@@ -190,9 +201,15 @@ class SGController extends Controller
 	}
 
 	public function masAction(){
-		chdir("/home/khanix/Bureau/squidGuard");
+		$em = $this->getDoctrine()->getManager();
+        $conf_path=$em->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array('nom'=>"confPath"));
+        
+		chdir($conf_path->getValeur());
 		$config=$this->getSGConfig();
 		file_put_contents("squidGuard.conf", $config);
+		shell_exec("sudo  chmod 777 -R ./*");
+		shell_exec("sudo chown proxy:proxy ./*");
+		shell_exec("sudo service squid3 restart");
 		$this->turnEtatToOne();
         return $this->redirect($this->generateUrl('squid_project_general_homepage'));
 	}

@@ -1,0 +1,68 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuDestination.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div class="col-lg-8" style="padding-left:100px;padding-top:20px" >
+				<div class="row">	
+					<div class="col-lg-9"> <h3> Ajout de nouveaux domaines : </h3> </div>
+					<div class="col-lg-3"> 
+						<button    class="btn btn-primary" id="add">
+                               + Nouveau
+                        </button>
+                    </div>	
+                </div>
+
+                <div>
+                	<form role="form"  style="margin-top:20px" method="post" action="{{path('squid_project_general_domaine_add',{'idDB':db.id})}}">
+                		 <input type="hidden" class="form-control" id="count" name="count" value="1">
+                		<fieldset>
+                			{%for i in 1..10 %}
+                				<div class="form-group " id="g{{i}}">
+					                <input type="text" class="form-control" id="domaine{{i}}" name="domaine{{i}}">
+					            </div>
+                			{%endfor%}
+                		</fieldset>
+
+           		 		<button type="submit" class="btn btn-primary">Ajouter</button>
+                	</form>
+
+                </div>
+
+				 
+	</div>
+
+
+	<script type="text/javascript">
+		$(function(){
+			function init(){
+				for(var i=2; i<11;i++){
+					$("#g"+i).hide();
+				}
+			} 
+
+			init();
+		   var add= $("#add");
+		   add.click(function(){
+		   		var c= parseInt($("#count").attr("value"))+1;
+		   		if(c<11){
+		   			$("#count").attr("value",c);
+		   			$("#g"+c).show(500);
+					
+				}
+				else alert("vous ne pouvez pas dépasser ce nombre maximum");
+				
+		   });
+		});
+	</script>
+
+
+{% endblock %}

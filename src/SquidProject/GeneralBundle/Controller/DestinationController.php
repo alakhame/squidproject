@@ -3,7 +3,7 @@
 namespace SquidProject\GeneralBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use SquidProject\GeneralBundle\Entity\Ip;
+use SquidProject\GeneralBundle\Entity\Domaine;
 use SquidProject\GeneralBundle\Entity\IpSource;
 use SquidProject\GeneralBundle\Entity\Source;
 use SquidProject\GeneralBundle\Entity\DestinationDB;
@@ -85,6 +85,17 @@ class DestinationController extends Controller
           $em->persist($db);
           $em->flush();
           $em->clear();
+          $text = trim($_POST['file']);
+          $domaines=explode("\n",$text);
+          foreach ($domaines as $dom) {
+            $domaine=new Domaine();
+            $domaine->setIdDB($db->getId());
+            $domaine->setNom($dom);
+            $em->persist($domaine);
+            $em->flush();
+            $em->clear();
+          }
+          $this->setDestDBtoSG($db->getId());
           $this->turnEtatToZero();
            return $this->render('SquidProjectGeneralBundle:Destination:success.html.twig',array('pseudo'=>$pseudo));
        }
@@ -150,7 +161,7 @@ class DestinationController extends Controller
 
     }
 
-     public function destDeleteAction($id){
+    public function destDeleteAction($id){
         $pseudo=$this->init()->getUsername();
           $em = $this->getDoctrine()->getManager();
           $dest=$em->getRepository('SquidProjectGeneralBundle:Destination')->find($id);
@@ -171,6 +182,76 @@ class DestinationController extends Controller
         $doctrine = $this->getDoctrine();
         $d=$doctrine->getRepository('SquidProjectGeneralBundle:Destination')->find($id);
         return new Response($d->getNom());
+    }
+
+    public function destDBcontentAction($id){
+        $pseudo=$this->init()->getUsername();
+        $doctrine = $this->getDoctrine();
+        $db=$doctrine->getRepository('SquidProjectGeneralBundle:DestinationDB')->find($id);
+        $doms=$doctrine->getRepository('SquidProjectGeneralBundle:Domaine')->findBy(array("idDB"=>$id));
+        return $this->render('SquidProjectGeneralBundle:Destination:destDBcontent.html.twig',array('doms'=>$doms,'pseudo'=>$pseudo,'db'=>$db));
+
+    }
+
+    public function destDBdomaineDelAction($idDB,$id){
+        $em = $this->getDoctrine()->getManager();
+        $dom=$em->getRepository('SquidProjectGeneralBundle:Domaine')->find($id);
+        $em->remove($dom);
+        $em->flush();
+        $this->setDestDBtoSG($idDB);
+        return $this->destDBcontentAction($idDB);
+
+    }
+
+    public function destDBdomaineAddAction($idDB){
+        $pseudo=$this->init()->getUsername();
+       $em = $this->getDoctrine()->getManager();
+        
+        $request = $this->get('request');
+        if ('POST' === $request->getMethod()) {
+            $count=$_POST['count'];
+            for($i=1;$i<=$count;$i++){
+              $domaine=new Domaine();
+              $domaine->setIdDB($idDB);
+              $domaine->setNom($_POST["domaine".$i]);
+              $em->persist($domaine);
+              $em->flush();
+              $em->clear();
+            }
+            $this->setDestDBtoSG($idDB);
+            return $this->destDBcontentAction($idDB);
+        }
+        else{
+          $db=$em->getRepository('SquidProjectGeneralBundle:DestinationDB')->find($idDB);
+          return $this->render('SquidProjectGeneralBundle:Destination:addDomaine.html.twig',array('db'=>$db,'pseudo'=>$pseudo));
+        }
+    }
+
+    public function setDestDBtoSG($idDB){
+        $em = $this->getDoctrine()->getManager();
+        $db=$em->getRepository('SquidProjectGeneralBundle:DestinationDB')->find($idDB);
+        $db_path=$em->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array('nom'=>"dbPath"));
+        $domaines=$em->getRepository('SquidProjectGeneralBundle:Domaine')->findBy(array('idDB'=>$idDB));
+        $content="";
+        foreach ($domaines as $domaine) {
+          $content.=$domaine->getNom()."\n";
+        }
+        chdir($db_path->getValeur());
+        shell_exec("mkdir ".$db->getNom());
+        shell_exec(" chmod 777 -R ".$db->getNom());
+        chdir($db->getNom());
+        file_put_contents( "domains", $content);
+
+        
+    }
+
+
+    public function testAction( ){
+        $em = $this->getDoctrine()->getManager();
+         $db_path=$em->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array('nom'=>'dbPath'));
+         $path=$db_path->getValeur();
+        return new Response($path);
+        
     }
 
 }

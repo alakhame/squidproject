@@ -81,9 +81,18 @@ class AclController extends Controller
     public function buildConfigAction($id){
     	$doctrine = $this->getDoctrine();
 	    $acl=$doctrine->getRepository('SquidProjectGeneralBundle:Acl')->find($id);
-	    $time=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->find($acl->getIdTime())->getNom();
+	    if($acl->getIdTime()!=-1){
+            $time=$doctrine->getRepository('SquidProjectGeneralBundle:TimeSquid')->find($acl->getIdTime())->getNom();
+        }
+        else { $time=-1;}
         $config="";
-	    $config.="\t".$acl->getNom()." within  ".$time."{ \r\n";
+	    $config.="\t".$acl->getNom();
+        if($time!=-1){
+             $config.=" within  ".$time."{ \r\n" ;
+        }
+        else {
+             $config.="{ \r\n" ;
+        }
 	    $config.="\t\t"."pass all "."\r\n" ;
 	    $config.="\t"."} else { \r\n";
 	    $config.="\t\t"."pass none \r\n" ;

@@ -74,6 +74,18 @@ squid_project_general_destination_DB_update:
     pattern:  /destination/DB/update/{id}
     defaults: { _controller: SquidProjectGeneralBundle:Destination:destDBup}
 
+squid_project_general_destination_DB_content:
+    pattern:  /destination/DB/content/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destDBcontent}
+
+squid_project_general_domaine_delete:
+    pattern:  /destination/DB/{idDB}/domaine/delete/{id}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destDBdomaineDel}
+
+squid_project_general_domaine_add:
+    pattern:  /destination/DB/{idDB}/domaine/add
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:destDBdomaineAdd}
+
 
 
 
@@ -152,7 +164,7 @@ squid_project_general_MAS:
 
 squid_project_general_test:
     pattern:  /test
-    defaults: { _controller: SquidProjectGeneralBundle:SG:test}
+    defaults: { _controller: SquidProjectGeneralBundle:Destination:test}
 
 
 
