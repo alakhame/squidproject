@@ -12,7 +12,7 @@
 
 {% block corps %}
 	<div style="padding-left:150px; padding-top:50px  " class="col-lg-8" >
-		<form role="form" method="post" action="{{path("squid_project_general_source_newIP")}}">
+		<form role="form" method="post" action="{{path("squid_project_general_source_newIP")}}"  >
 		<fieldset>
              <div class="form-group ">
                 <label class="control-label" for="type">Type de la source</label>
@@ -27,19 +27,109 @@
             <div class="form-group ">
                 <label class="control-label" for="fichierip">Nom du fichier d'IPs</label>
                 <input type="text" class="form-control" id="fichierip" name="fichierip">
+                <label class="control-label" style="float:right"  id="fichierip_check" ></label>
             </div>
             <div class="form-group ">
                 <label class="control-label" for="plageip">Plage d'addresses</label>
                 <input type="text" class="form-control" id="plageip" name="plageip">
+                <label class="control-label" style="float:right"  id="plageip_check" ></label>
             </div>
             <div class="form-group ">
                 <label class="control-label" for="cidr">Adresse avec CIDR</label>
-                <input type="text" class="form-control " id="cidr" name="cidr">
+                <input type="text" class="form-control " id="cidr" name="cidr" >
+                <label class="control-label"  style="float:right" id="cidr_check" ></label>
             </div>
-            <button type="submit" class="btn btn-primary">Déclarer</button>
+            <button type="submit"  id="sbmt" class="btn btn-primary">Déclarer</button>
         </fieldset>
         </form>	
 	</div>
+
+	<script type="text/javascript">
+		$(function(){
+
+			
+			var delay = (function(){
+			  var timer = 0;
+			  return function(callback, ms){
+			    clearTimeout (timer);
+			    timer = setTimeout(callback, ms);
+			  };
+			})();
+
+			function checkForExistingIP(champs){
+				var val=$("#"+champs).val();
+			    delay(function(){
+			      $.ajax({
+			       	url : "/squidproject/web/app_dev.php/validate/ip/"+val,
+			       	type : 'GET',
+			       	dataType : 'html',
+			       	success : function(rslt, statut){
+			           $("#"+champs+"_check").html(rslt);  
+			      	}
+			    });
+			    }, 500 );
+			}
+			
+			$('#fichierip').keyup(function(){
+				var champs="fichierip";
+				var val=$("#"+champs).val();
+			    delay(function(){
+			      $.ajax({
+			       	url : "/squidproject/web/app_dev.php/validate/ip/"+val,
+			       	type : 'GET',
+			       	dataType : 'html',
+			       	success : function(rslt, statut){
+			           	$("#"+champs+"_check").html(rslt); 
+			           	 
+			      	}
+			    });
+			    }, 500 );
+			});
+
+			$('#plageip').keyup(function(){
+				var champs="plageip";
+				var val=$("#"+champs).val();
+			    delay(function(){
+			      $.ajax({
+			       	url : "/squidproject/web/app_dev.php/validate/ip/"+val,
+			       	type : 'GET',
+			       	dataType : 'html',
+			       	success : function(rslt, statut){
+			           	$("#"+champs+"_check").html(rslt); 
+			           	 
+			      	}
+			    });
+			    }, 500 );
+			});
+
+			$('#cidr').keyup(function(){
+				var champs="cidr";
+				var val=$("#"+champs).val();
+			    delay(function(){
+			      $.ajax({
+			       	url : "/squidproject/web/app_dev.php/validate/ip/"+val,
+			       	type : 'GET',
+			       	dataType : 'html',
+			       	success : function(rslt, statut){
+			           	$("#"+champs+"_check").html(rslt); 
+			           	 
+			      	}
+			    });
+			    }, 500 );
+			});
+			
+		   	setInterval(function(){
+		   		 if($("#fichierip_check").text()!="OK !" && $("#plageip_check").text()!="OK !" && $("#cidr_check").text()!="OK !" ){
+		   		 	$("#sbmt").prop("disabled",true);
+		   		 }else{
+		   		 	$("#sbmt").prop("disabled",false);
+		   		 }
+		   	}, 300);
+		    
+		});
+
+	</script>
+
 
 	<script type="text/javascript">
 		$(function(){
@@ -55,12 +145,15 @@
 			type.click(function(){
 				var n=type.val();
 				if(n==1){
+					$("#plageip_check").html("");$("#cidr_check").html("");
 					input1.prop('disabled', false); input2.prop('disabled', true); input3.prop('disabled', true);
 				}
 				else if(n==2){
+					$("#cidr_check").html("");$("#fichierip_check").html("");
 					input2.prop('disabled', false); input1.prop('disabled', true); input3.prop('disabled', true);
 				}
 				else if(n==3){
+					$("#plageip_check").html("");$("#fichierip_check").html("");
 					input3.prop('disabled', false); input2.prop('disabled', true); input1.prop('disabled', true);
 				}
 				else{

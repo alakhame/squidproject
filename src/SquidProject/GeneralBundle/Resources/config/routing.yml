@@ -156,15 +156,69 @@ squid_project_general_restriction_toggle:
     defaults: { _controller: SquidProjectGeneralBundle:Restriction:restToggle}
 
 
+
 squid_project_general_MAS:
     pattern:  /miseajour
     defaults: { _controller: SquidProjectGeneralBundle:SG:mas}
 
 
 
+
+squid_project_general_config:
+    pattern:  /configuration
+    defaults: { _controller: SquidProjectGeneralBundle:Config:accueil}
+
+squid_project_general_config_new:
+    pattern:  /configuration/new
+    defaults: { _controller: SquidProjectGeneralBundle:Config:new}
+
+squid_project_general_config_update:
+    pattern:  /configuration/update
+    defaults: { _controller: SquidProjectGeneralBundle:Config:update}
+
+
+
+
+squid_project_general_validate:
+    pattern:  /validate
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validate}
+
+squid_project_general_validate_ip:
+    pattern:  /validate/ip/{ip}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateIP}
+
+squid_project_general_validate_source:
+    pattern:  /validate/source/{src}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateSource}
+
+squid_project_general_validate_destination:
+    pattern:  /validate/destination/{dest}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateDestination}
+
+squid_project_general_validate_destinationDB:
+    pattern:  /validate/destinationDB/{destDB}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateDestinationDB}
+
+squid_project_general_validate_acl:
+    pattern:  /validate/acl/{acl}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateAcl}
+
+squid_project_general_validate_aclSource:
+    pattern:  /validate/aclSource/{src}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateAclSource}
+
+squid_project_general_validate_horaire:
+    pattern:  /validate/horaire/{h}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateHoraire}
+
+
+
+
+
+
 squid_project_general_test:
     pattern:  /test
-    defaults: { _controller: SquidProjectGeneralBundle:Destination:test}
+    defaults: { _controller: SquidProjectGeneralBundle:Restriction:test}
 
 
 

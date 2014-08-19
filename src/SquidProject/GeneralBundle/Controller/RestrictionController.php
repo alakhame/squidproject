@@ -90,6 +90,21 @@ class RestrictionController extends Controller
     	return false ;
     }
 
+    public function testAction() {
+      $rests=array();
+      $em = $this->getDoctrine()->getManager();
+        $rts=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findAll();
+        foreach ($rts as $r) {
+          if(!$this->existInArray($r,$rests)) $rests[]=$r;
+        }
+        $s="";
+        foreach ($rests as $r) {
+          $s.=$r->getIdAcl()." -- ";
+        }
+        return new Response($s);
+
+    }
+
     public function restDeleteAction($id)
     {   
     	$pseudo=$this->init()->getUsername();
@@ -103,14 +118,14 @@ class RestrictionController extends Controller
     public function getDestByRestId2Action($id,$idAcl)
     { 
         $em = $this->getDoctrine()->getManager();
-        $r=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->find($id);
-        $destsIds=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$idAcl));
-        $dests=array();
+        //$r=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->find($id);
+        $rests=$em->getRepository('SquidProjectGeneralBundle:Restrictions')->findBy(array("idAcl"=>$idAcl));
+       /* $dests=array();
         foreach ($destsIds as $dId) {
             $dests[]=$em->getRepository('SquidProjectGeneralBundle:Destination')->find($dId->getIdDest()) ;
-        }
+        }*/
 
-        return $this->render('SquidProjectGeneralBundle:Restriction:test.html.twig',array('r'=>$r,'ds'=>$dests));
+        return $this->render('SquidProjectGeneralBundle:Restriction:restListDestination.html.twig',array('rs'=>$rests));
     
     } 
 

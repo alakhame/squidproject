@@ -1,0 +1,17 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuAccueil.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div class="col-lg-8" >
+				<h3 style="color:blue"> L'action a été réalisée avec succés. </h3>		
+	</div>
+{% endblock %}

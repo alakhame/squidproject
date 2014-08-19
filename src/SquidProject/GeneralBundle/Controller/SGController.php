@@ -209,6 +209,7 @@ class SGController extends Controller
 		file_put_contents("squidGuard.conf", $config);
 		shell_exec("sudo  chmod 777 -R ./*");
 		shell_exec("sudo chown proxy:proxy ./*");
+		shell_exec("sudo squidGuard -C all");
 		shell_exec("sudo service squid3 restart");
 		$this->turnEtatToOne();
         return $this->redirect($this->generateUrl('squid_project_general_homepage'));

@@ -1,0 +1,45 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuAccueil.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+	<div class="col-lg-8" style="padding-left:100px;padding-top:20px">
+		<div class="row">
+			<form   role="form" method="post" action="{{path('squid_project_general_config_new')}}">
+				<fieldset>
+					 <div class="col-lg-5">
+					 	 <input type="text" class="form-control" name="nom" id="nom" placeholder="nom du champs" required autofocus>
+					 </div>
+					 <div class="col-lg-5">
+					 	 <input type="text" class="form-control" name="valeur" id="valeur" placeholder="valeur du  champs" required autofocus>
+					 </div>
+					 <div class="col-lg-2">
+					 	<button class="btn btn-lg btn-primary btn-block" type="submit">Ajouter</button>
+					 </div>
+				</fieldset>
+			</form>
+		</div>
+		<hr/>
+		<div class="row">
+			<form   role="form" method="post" action="{{path('squid_project_general_config_update')}}">
+				<fieldset>
+					{% for c in configs %}
+						<div class="form-group ">
+			                <label class="control-label" for="{{c.nom}}">{{c.nom}}</label>
+			                <input type="text" class="form-control" id="{{c.nom}}" name="{{c.nom}}" value="{{c.valeur}}">
+			            </div>
+					{% endfor %}
+				</fieldset>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Modifier</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}
