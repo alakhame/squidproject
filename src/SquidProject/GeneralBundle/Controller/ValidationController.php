@@ -104,5 +104,19 @@ class ValidationController extends Controller
         }
 		
     }
+
+    public function validateConfigurationAction($conf)
+    {
+        //$champs=$_POST['champs'];
+        $doctrine = $this->getDoctrine();
+        $confRslt=$doctrine->getRepository('SquidProjectGeneralBundle:Config')->findOneBy(array("nom"=>$conf));
+        if(!$confRslt){
+        	return new Response("<span style=\"color:green\">OK !</span>");
+        }
+        else{
+        	return new Response("<span style=\"color:red\">Ce nom existe déja!</span>");
+        }
+		
+    }
 	 
 }

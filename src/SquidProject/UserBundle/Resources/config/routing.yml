@@ -1,0 +1,12 @@
+squid_project_user_profil:
+    pattern:  /user/profil
+    defaults: { _controller: SquidProjectUserBundle:User:profil}
+
+squid_project_user_new:
+    pattern:  /user/new
+    defaults: { _controller: SquidProjectUserBundle:User:new}
+
+squid_project_user_delete:
+    pattern:  /user/delete
+    defaults: { _controller: SquidProjectUserBundle:User:delete}
+

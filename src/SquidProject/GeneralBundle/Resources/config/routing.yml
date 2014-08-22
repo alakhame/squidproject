@@ -176,6 +176,9 @@ squid_project_general_config_update:
     pattern:  /configuration/update
     defaults: { _controller: SquidProjectGeneralBundle:Config:update}
 
+squid_project_general_config_policy:
+    pattern:  /configuration/policy
+    defaults: { _controller: SquidProjectGeneralBundle:Config:policy}
 
 
 
@@ -210,6 +213,11 @@ squid_project_general_validate_aclSource:
 squid_project_general_validate_horaire:
     pattern:  /validate/horaire/{h}
     defaults: { _controller: SquidProjectGeneralBundle:Validation:validateHoraire}
+
+squid_project_general_validate_config:
+    pattern:  /validate/configuration/{conf}
+    defaults: { _controller: SquidProjectGeneralBundle:Validation:validateConfiguration}
+
 
 
 

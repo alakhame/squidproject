@@ -1,0 +1,15 @@
+{% extends '::layoutSquid.html.twig' %}
+
+{% block slider%}
+	{% include '::slider.html.twig' %}
+
+{%endblock %}
+
+{% block menu%}
+	{% include 'SquidProjectGeneralBundle:Menus:menuAccueil.html.twig' %}
+
+{%endblock %}
+
+{% block corps %}
+ 	{{render(controller('FOSUserBundle:Profile:show'))}}
+{% endblock %}

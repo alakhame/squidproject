@@ -6,7 +6,7 @@
 {%endblock %}
 
 {% block menu%}
-	{% include 'SquidProjectGeneralBundle:Menus:menuAccueil.html.twig' %}
+	{% include 'SquidProjectGeneralBundle:Menus:menuConfig.html.twig' %}
 
 {%endblock %}
 
@@ -17,12 +17,13 @@
 				<fieldset>
 					 <div class="col-lg-5">
 					 	 <input type="text" class="form-control" name="nom" id="nom" placeholder="nom du champs" required autofocus>
+					 	 <label class="control-label" style="float:right"  id="nom_check" ></label>
 					 </div>
 					 <div class="col-lg-5">
 					 	 <input type="text" class="form-control" name="valeur" id="valeur" placeholder="valeur du  champs" required autofocus>
 					 </div>
 					 <div class="col-lg-2">
-					 	<button class="btn btn-lg btn-primary btn-block" type="submit">Ajouter</button>
+					 	<button class="btn btn-lg btn-primary btn-block" id="sbmt" type="submit">Ajouter</button>
 					 </div>
 				</fieldset>
 			</form>
@@ -42,4 +43,42 @@
 			</form>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+
+		var delay = (function(){
+			var timer = 0;
+		  	return function(callback, ms){
+			 	clearTimeout (timer);
+			    timer = setTimeout(callback, ms);
+			};
+		})();
+
+		$('#nom').keyup(function(){
+				var champs="nom";
+				var val=$("#"+champs).val();
+			    delay(function(){
+			      $.ajax({
+			       	url : "/squidproject/web/app_dev.php/validate/configuration/"+val,
+			       	type : 'GET',
+			       	dataType : 'html',
+			       	success : function(rslt, statut){
+			           	$("#"+champs+"_check").html(rslt); 
+			           	 
+			      	}
+			    });
+			    }, 500 );
+			});
+
+		setInterval(function(){
+	   		 if($("#nom_check").text()!="OK !" ){
+	   		 	$("#sbmt").prop("disabled",true);
+	   		 }else{
+	   		 	$("#sbmt").prop("disabled",false);
+	   		 }
+	   	}, 300);
+
+
+
+	</script>
 {% endblock %}
